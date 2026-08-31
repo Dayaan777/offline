@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 
 // ─── Animation helpers ────────────────────────────────────────────────────────
@@ -102,7 +103,7 @@ export function HomeHero() {
                 whitespace-nowrap
               "
             >
-              Shop the Collection
+              Shop new arrivals
             </Link>
 
             <Link
@@ -136,7 +137,17 @@ export function HomeHero() {
         "
         style={fadeIn(0)}
       >
-        <ImagePlaceholder />
+        <div className="absolute inset-0 bg-[#231B15]">
+          <Image
+            src="/images/products/margin/off-white/01.png"
+            alt="The Margin footwear in off-white"
+            fill
+            priority
+            className="object-cover object-center opacity-90 mix-blend-screen"
+            sizes="(max-width: 768px) 100vw, 58vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true" />
+        </div>
 
         <div
           className="
