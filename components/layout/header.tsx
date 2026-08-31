@@ -1,0 +1,474 @@
+'use client'
+
+import { useState, useEffect, useRef, useCallback } from 'react'
+import Link from 'next/link'
+import { usePathname, useRouter } from 'next/navigation'
+import { useCart } from '@/context/cart-context'
+import { useWishlist } from '@/context/wishlist-context'
+import {
+  IconSearch,
+  IconHeart,
+  IconUser,
+  IconBag,
+  IconMenu,
+  IconX,
+  IconChevronDown,
+} from '@/components/icons'
+
+// ─── Nav data ─────────────────────────────────────────────────────────────────
+
+type DropdownId = 'shop' | 'brand'
+
+type DropdownItem = { label: string; href: string } | { divider: true }
+
+type NavLink =
+  | { label: string; id: DropdownId; href?: never; dropdown: DropdownItem[] }
+  | { label: string; href: string; id?: never; dropdown?: never }
+
+const NAV_LINKS: NavLink[] = [
+  {
+    label: 'Shop',
+    id: 'shop',
+    dropdown: [
+      { label: 'Ground', href: '/shop/ground' },
+      { label: 'Field', href: '/shop/field' },
+      { label: 'Floor', href: '/shop/floor' },
+      { label: 'Track', href: '/shop/track' },
+      { divider: true },
+      { label: 'New Arrivals', href: '/shop/new' },
+    ],
+  },
+  {
+    label: 'The Brand',
+    id: 'brand',
+    dropdown: [
+      { label: 'About', href: '/brand' },
+      { label: 'Materials', href: '/brand/materials' },
+    ],
+  },
+  { label: 'Journal', href: '/journal' },
+]
+
+const MOBILE_SHOP = [
+  { label: 'Ground', href: '/shop/ground' },
+  { label: 'Field', href: '/shop/field' },
+  { label: 'Floor', href: '/shop/floor' },
+  { label: 'Track', href: '/shop/track' },
+  { label: 'New Arrivals', href: '/shop/new' },
+]
+
+const MOBILE_BRAND = [
+  { label: 'About', href: '/brand' },
+  { label: 'Materials', href: '/brand/materials' },
+]
+
+// ─── Component ────────────────────────────────────────────────────────────────
+
+export function Header() {
+  const pathname = usePathname()
+  const router = useRouter()
+  const { itemCount, openCart } = useCart()
+  const { itemCount: wishlistCount } = useWishlist()
+
+  const [openDropdown, setOpenDropdown] = useState<DropdownId | null>(null)
+  const [isMobileOpen, setIsMobileOpen] = useState(false)
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const headerRef = useRef<HTMLElement>(null)
+  const searchInputRef = useRef<HTMLInputElement>(null)
+  const mobileSearchRef = useRef<HTMLInputElement>(null)
+
+  // Close everything on route change
+  useEffect(() => {
+    setIsMobileOpen(false)
+    setIsSearchOpen(false)
+    setOpenDropdown(null)
+    setSearchQuery('')
+  }, [pathname])
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    document.body.style.overflow = isMobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [isMobileOpen])
+
+  // Auto-focus search input when opened
+  useEffect(() => {
+    if (isSearchOpen) searchInputRef.current?.focus()
+  }, [isSearchOpen])
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (headerRef.current && !headerRef.current.contains(e.target as Node)) {
+        setOpenDropdown(null)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  // Close search on Escape
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        if (isSearchOpen) { setIsSearchOpen(false); setSearchQuery('') }
+        if (isMobileOpen) setIsMobileOpen(false)
+        setOpenDropdown(null)
+      }
+    }
+    document.addEventListener('keydown', handler)
+    return () => document.removeEventListener('keydown', handler)
+  }, [isSearchOpen, isMobileOpen])
+
+  const handleSearchSubmit = useCallback(
+    (e: React.FormEvent, closeMobile = false) => {
+      e.preventDefault()
+      const q = searchQuery.trim()
+      if (!q) return
+      router.push(`/search?q=${encodeURIComponent(q)}`)
+      setIsSearchOpen(false)
+      if (closeMobile) setIsMobileOpen(false)
+      setSearchQuery('')
+    },
+    [router, searchQuery]
+  )
+
+  const handleDropdownKey = (e: React.KeyboardEvent, id: DropdownId) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      setOpenDropdown((prev) => (prev === id ? null : id))
+    }
+  }
+
+  const toggleSearch = () => {
+    setIsSearchOpen((v) => !v)
+    setSearchQuery('')
+    setOpenDropdown(null)
+  }
+
+  // ─── Render ─────────────────────────────────────────────────────────────────
+
+  return (
+    <>
+      {/* ── Header ─────────────────────────────────────────────────────────── */}
+      <header
+        ref={headerRef}
+        className="fixed top-0 inset-x-0 z-50 h-[60px] bg-[var(--color-bg-primary)] border-b border-[var(--color-border-subtle)]"
+      >
+        <div className="container h-full">
+
+          {/* ── Desktop layout ─────────────────────────────────────────────── */}
+          <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center h-full gap-8">
+
+            {/* Left — wordmark */}
+            <Link
+              href="/"
+              aria-label="OFFLINE home"
+              className="inline-block text-[13px] font-light tracking-[0.15em] text-[var(--color-text-primary)] hover:opacity-60 transition-opacity duration-100"
+            >
+              OFFLINE
+            </Link>
+
+            {/* Center — nav or search */}
+            {isSearchOpen ? (
+              <form
+                onSubmit={handleSearchSubmit}
+                className="flex items-center w-[360px]"
+                role="search"
+              >
+                <input
+                  ref={searchInputRef}
+                  type="search"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search footwear..."
+                  aria-label="Search"
+                  className="w-full bg-transparent border-b border-[var(--color-border-default)] pb-1 text-[15px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-text-primary)] transition-colors duration-150"
+                />
+              </form>
+            ) : (
+              <nav
+                className="flex items-center gap-7"
+                aria-label="Main navigation"
+              >
+                {NAV_LINKS.map((link) =>
+                  link.dropdown ? (
+                    <div
+                      key={link.id}
+                      className="relative"
+                      onMouseEnter={() => setOpenDropdown(link.id!)}
+                      onMouseLeave={() => setOpenDropdown(null)}
+                    >
+                      <button
+                        aria-expanded={openDropdown === link.id}
+                        aria-haspopup="true"
+                        onKeyDown={(e) => handleDropdownKey(e, link.id!)}
+                        className="flex items-center gap-1 text-[15px] tracking-[0.02em] text-[var(--color-text-primary)] opacity-60 hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-100 focus:outline-none"
+                      >
+                        {link.label}
+                        <IconChevronDown
+                          className={`w-3 h-3 transition-transform duration-150 ${
+                            openDropdown === link.id ? 'rotate-180' : ''
+                          }`}
+                        />
+                      </button>
+
+                      {/* Dropdown panel */}
+                      {openDropdown === link.id && (
+                        <div
+                          className="absolute top-[calc(100%+1px)] left-1/2 -translate-x-1/2 min-w-[168px] border border-[var(--color-border-subtle)] bg-[var(--color-bg-primary)] py-2 shadow-[var(--shadow-overlay)]"
+                          role="menu"
+                        >
+                          {link.dropdown.map((item, i) =>
+                            'divider' in item ? (
+                              <div
+                                key={i}
+                                className="my-1 mx-4 h-px bg-[var(--color-border-subtle)]"
+                                role="separator"
+                              />
+                            ) : (
+                              <Link
+                                key={item.href}
+                                href={item.href}
+                                role="menuitem"
+                                onClick={() => setOpenDropdown(null)}
+                                className="block px-5 py-2 text-[14px] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] transition-colors duration-100"
+                              >
+                                {item.label}
+                              </Link>
+                            )
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      key={link.href}
+                      href={link.href!}
+                      className="text-[15px] tracking-[0.02em] text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100"
+                    >
+                      {link.label}
+                    </Link>
+                  )
+                )}
+              </nav>
+            )}
+
+            {/* Right — utility icons */}
+            <div className="flex items-center justify-end gap-5">
+              <button
+                onClick={toggleSearch}
+                aria-label={isSearchOpen ? 'Close search' : 'Search'}
+                className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus-visible:opacity-100 focus:outline-none"
+              >
+                {isSearchOpen ? (
+                  <IconX className="w-5 h-5" />
+                ) : (
+                  <IconSearch className="w-5 h-5" />
+                )}
+              </button>
+
+              <Link
+                href="/wishlist"
+                aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} saved` : ''}`}
+                className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100"
+              >
+                <IconHeart className="w-5 h-5" />
+              </Link>
+
+              <Link
+                href="/account"
+                aria-label="Account"
+                className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100"
+              >
+                <IconUser className="w-5 h-5" />
+              </Link>
+
+              <button
+                onClick={openCart}
+                aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
+                className="relative text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none focus-visible:opacity-100"
+              >
+                <IconBag className="w-5 h-5" />
+                {itemCount > 0 && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute -top-1.5 -right-2 min-w-[16px] h-4 bg-[var(--color-accent)] text-[var(--color-text-inverse)] text-[10px] font-medium leading-none flex items-center justify-center px-[3px]"
+                  >
+                    {itemCount > 9 ? '9+' : itemCount}
+                  </span>
+                )}
+              </button>
+            </div>
+          </div>
+
+          {/* ── Mobile layout ──────────────────────────────────────────────── */}
+          <div className="flex md:hidden items-center justify-between h-full">
+            <button
+              onClick={() => setIsMobileOpen(true)}
+              aria-label="Open navigation menu"
+              className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+            >
+              <IconMenu className="w-5 h-5" />
+            </button>
+
+            <Link
+              href="/"
+              aria-label="OFFLINE home"
+              className="text-[13px] font-light tracking-[0.15em] text-[var(--color-text-primary)]"
+            >
+              OFFLINE
+            </Link>
+
+            <button
+              onClick={openCart}
+              aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
+              className="relative text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+            >
+              <IconBag className="w-5 h-5" />
+              {itemCount > 0 && (
+                <span
+                  aria-hidden="true"
+                  className="absolute -top-1.5 -right-2 min-w-[16px] h-4 bg-[var(--color-accent)] text-[var(--color-text-inverse)] text-[10px] font-medium leading-none flex items-center justify-center px-[3px]"
+                >
+                  {itemCount > 9 ? '9+' : itemCount}
+                </span>
+              )}
+            </button>
+          </div>
+
+        </div>
+      </header>
+
+      {/* ── Mobile navigation overlay ───────────────────────────────────────── */}
+      {isMobileOpen && (
+        <div
+          className="fixed inset-0 z-[60] bg-[var(--color-bg-inverse)] flex flex-col"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Navigation"
+        >
+          {/* Mobile overlay header */}
+          <div className="flex items-center justify-between h-[60px] px-5 flex-shrink-0 border-b border-[var(--color-border-inverse)]">
+            <Link
+              href="/"
+              onClick={() => setIsMobileOpen(false)}
+              className="text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)]"
+            >
+              OFFLINE
+            </Link>
+            <button
+              onClick={() => setIsMobileOpen(false)}
+              aria-label="Close menu"
+              className="text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+            >
+              <IconX className="w-5 h-5" />
+            </button>
+          </div>
+
+          {/* Mobile search */}
+          <div className="px-5 py-5 border-b border-[var(--color-border-inverse)] flex-shrink-0">
+            <form
+              onSubmit={(e) => handleSearchSubmit(e, true)}
+              role="search"
+              className="flex items-center gap-3"
+            >
+              <IconSearch className="w-4 h-4 text-[var(--color-text-inverse-muted)] flex-shrink-0" />
+              <input
+                ref={mobileSearchRef}
+                type="search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search footwear..."
+                aria-label="Search"
+                className="flex-1 bg-transparent text-[var(--color-text-inverse)] placeholder:text-[var(--color-text-inverse-muted)] text-[1rem] focus:outline-none"
+              />
+            </form>
+          </div>
+
+          {/* Mobile nav links — scrollable */}
+          <nav
+            className="flex-1 overflow-y-auto px-5 py-8"
+            aria-label="Mobile navigation"
+          >
+            {/* Shop */}
+            <div className="mb-8">
+              <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--color-text-inverse-muted)] mb-4">
+                Shop
+              </p>
+              <ul className="space-y-1">
+                {MOBILE_SHOP.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsMobileOpen(false)}
+                      className="block py-2.5 text-[1.875rem] font-light leading-none text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* The Brand */}
+            <div className="mb-8">
+              <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--color-text-inverse-muted)] mb-4">
+                The Brand
+              </p>
+              <ul className="space-y-1">
+                {MOBILE_BRAND.map((item) => (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setIsMobileOpen(false)}
+                      className="block py-2.5 text-[1.875rem] font-light leading-none text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
+                    >
+                      {item.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Journal */}
+            <Link
+              href="/journal"
+              onClick={() => setIsMobileOpen(false)}
+              className="block py-2.5 text-[1.875rem] font-light leading-none text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
+            >
+              Journal
+            </Link>
+          </nav>
+
+          {/* Mobile overlay footer — account + wishlist */}
+          <div className="flex-shrink-0 px-5 py-5 border-t border-[var(--color-border-inverse)] flex items-center gap-6">
+            <Link
+              href="/wishlist"
+              onClick={() => setIsMobileOpen(false)}
+              className="flex items-center gap-2 text-[14px] text-[var(--color-text-inverse-muted)] hover:text-[var(--color-text-inverse)] transition-colors duration-100"
+            >
+              <IconHeart className="w-4 h-4" />
+              Wishlist
+              {wishlistCount > 0 && (
+                <span className="text-[var(--color-text-inverse-muted)]">
+                  ({wishlistCount})
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/account"
+              onClick={() => setIsMobileOpen(false)}
+              className="flex items-center gap-2 text-[14px] text-[var(--color-text-inverse-muted)] hover:text-[var(--color-text-inverse)] transition-colors duration-100"
+            >
+              <IconUser className="w-4 h-4" />
+              Account
+            </Link>
+          </div>
+        </div>
+      )}
+    </>
+  )
+}
