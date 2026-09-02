@@ -207,8 +207,8 @@ export function Header() {
             </nav>
 
             {/* Center — independent wordmark */}
-            <Link href="/" aria-label="OFFLINE home" className="justify-self-center text-[13px] font-light tracking-[0.15em] text-[color:var(--color-text-inverse)] transition-opacity duration-100 hover:opacity-70">
-              OFFLINE
+            <Link href="/" aria-label="OFFLINE home" className="group justify-self-center transition-opacity duration-200 hover:opacity-80">
+              <img src="/images/offline-logo.png" alt="OFFLINE" className="h-auto w-28 object-contain mix-blend-screen lg:w-36" />
             </Link>
 
             {/* Right — utility icons */}
@@ -252,9 +252,9 @@ export function Header() {
             <Link
               href="/"
               aria-label="OFFLINE home"
-              className="!text-[color:var(--color-text-inverse)] text-[13px] font-light tracking-[0.15em]"
+              className="transition-opacity duration-200 hover:opacity-80"
             >
-              OFFLINE
+              <img src="/images/offline-logo.png" alt="OFFLINE" className="h-auto w-24 object-contain mix-blend-screen" />
             </Link>
 
             <button
@@ -290,9 +290,9 @@ export function Header() {
             <Link
               href="/"
               onClick={() => setIsMobileOpen(false)}
-              className="text-[13px] font-light tracking-[0.15em] text-[color:var(--color-text-inverse)]"
+              className="transition-opacity duration-200 hover:opacity-80"
             >
-              OFFLINE
+              <img src="/images/offline-logo.png" alt="OFFLINE" className="h-auto w-24 object-contain mix-blend-screen" />
             </Link>
             <button
               onClick={() => setIsMobileOpen(false)}
