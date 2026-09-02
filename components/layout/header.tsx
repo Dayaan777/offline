@@ -238,7 +238,7 @@ export function Header() {
             <button
               onClick={() => setIsMobileOpen(true)}
               aria-label="Open navigation menu"
-              className="text-[color:var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+              className="text-[color:var(--color-text-inverse)] opacity-100 hover:opacity-70 transition-opacity duration-100 focus:outline-none"
             >
               <IconMenu className="w-5 h-5" />
             </button>
@@ -246,7 +246,7 @@ export function Header() {
             <Link
               href="/"
               aria-label="OFFLINE home"
-              className="text-[13px] font-light tracking-[0.15em] text-[color:var(--color-text-inverse)]"
+              className="!text-[color:var(--color-text-inverse)] text-[13px] font-light tracking-[0.15em]"
             >
               OFFLINE
             </Link>
@@ -254,7 +254,7 @@ export function Header() {
             <button
               onClick={openCart}
               aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
-              className="relative text-[color:var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+              className="relative text-[color:var(--color-text-inverse)] opacity-100 hover:opacity-70 transition-opacity duration-100 focus:outline-none"
             >
               <IconBag className="w-5 h-5" />
               {itemCount > 0 && (
