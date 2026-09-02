@@ -152,17 +152,14 @@ export function Header() {
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <header
         ref={headerRef}
-        className="absolute inset-x-0 top-0 z-50 h-[54px] border-b border-transparent bg-transparent md:h-[82px]"
+        className="absolute inset-x-0 top-0 z-50 h-[54px] overflow-x-clip border-b border-transparent bg-transparent md:h-[82px]"
       >
         <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-6 overflow-hidden border-b border-white/15 md:block">
-          <div className="flex h-full w-max items-center whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-text-inverse)]" style={{ animation: 'offline-marquee 28s linear infinite' }}>
-            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
-            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
-            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
-            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
+          <div className="flex h-full w-max items-center whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-text-inverse)]" style={{ animation: 'offline-marquee 18s linear infinite' }}>
+            <span>SALE LIVE NOW. UP TO 50% OFF</span>
           </div>
         </div>
-        <style>{`@keyframes offline-marquee { from { transform: translateX(0); } to { transform: translateX(-25%); } }`}</style>
+        <style>{`@keyframes offline-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }`}</style>
         <div className="h-full w-full px-5 md:px-10 lg:px-20">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
