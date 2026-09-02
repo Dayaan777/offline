@@ -152,12 +152,21 @@ export function Header() {
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <header
         ref={headerRef}
-        className="absolute inset-x-0 top-0 z-50 h-[54px] border-b border-transparent bg-transparent md:h-[58px]"
+        className="absolute inset-x-0 top-0 z-50 h-[54px] border-b border-transparent bg-transparent md:h-[82px]"
       >
+        <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-6 overflow-hidden border-b border-white/15 md:block">
+          <div className="flex h-full w-max items-center whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-text-inverse)]" style={{ animation: 'offline-marquee 28s linear infinite' }}>
+            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
+            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
+            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
+            <span className="pr-16">NEW PRODUCT WHEN IT&apos;S READY. NOTHING ELSE.</span>
+          </div>
+        </div>
+        <style>{`@keyframes offline-marquee { from { transform: translateX(0); } to { transform: translateX(-25%); } }`}</style>
         <div className="h-full w-full px-5 md:px-10 lg:px-20">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
-          <div className="relative hidden h-full items-center md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4 lg:gap-8 [&_a]:!text-[var(--color-text-inverse)] [&_button]:!text-[var(--color-text-inverse)]">
+          <div className="relative hidden h-[58px] items-center md:absolute md:inset-x-0 md:top-6 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4 lg:gap-8 [&_a]:!text-[var(--color-text-inverse)] [&_button]:!text-[var(--color-text-inverse)]">
 
             {/* Left — primary navigation */}
             <nav className="flex min-w-0 items-center gap-3 lg:gap-7" aria-label="Main navigation">
