@@ -208,7 +208,7 @@ export function Header() {
 
             {/* Center — independent wordmark */}
             <Link href="/" aria-label="OFFLINE home" className="group justify-self-center transition-opacity duration-200 hover:opacity-80">
-              <img src="/images/offline-logo.png" alt="OFFLINE" className="h-auto w-28 object-contain mix-blend-screen lg:w-36" />
+              <img src="/images/offline-logo-transparent.png" alt="OFFLINE" className="h-auto w-28 object-contain lg:w-36" />
             </Link>
 
             {/* Right — utility icons */}
@@ -254,7 +254,7 @@ export function Header() {
               aria-label="OFFLINE home"
               className="transition-opacity duration-200 hover:opacity-80"
             >
-              <img src="/images/offline-logo.png" alt="OFFLINE" className="h-auto w-24 object-contain mix-blend-screen" />
+              <img src="/images/offline-logo-transparent.png" alt="OFFLINE" className="h-auto w-24 object-contain" />
             </Link>
 
             <button
@@ -292,7 +292,7 @@ export function Header() {
               onClick={() => setIsMobileOpen(false)}
               className="transition-opacity duration-200 hover:opacity-80"
             >
-              <img src="/images/offline-logo.png" alt="OFFLINE" className="h-auto w-24 object-contain mix-blend-screen" />
+              <img src="/images/offline-logo-transparent.png" alt="OFFLINE" className="h-auto w-24 object-contain" />
             </Link>
             <button
               onClick={() => setIsMobileOpen(false)}
