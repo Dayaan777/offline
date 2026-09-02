@@ -3,7 +3,6 @@ import { DM_Sans, Instrument_Serif } from 'next/font/google'
 import { CartProvider } from '@/context/cart-context'
 import { WishlistProvider } from '@/context/wishlist-context'
 import { Header } from '@/components/layout/header'
-import { AnnouncementBar } from '@/components/layout/announcement-bar'
 import { Footer } from '@/components/layout/footer'
 import '@/app/globals.css'
 
@@ -60,12 +59,11 @@ export default function RootLayout({
       <body>
         <CartProvider>
           <WishlistProvider>
-            {/* Desktop-only announcement bar (32px) + fixed header (58px on desktop) */}
-            <AnnouncementBar />
+            {/* Fixed header — 60px height, accounted for with pt-[60px] on main */}
             <Header />
 
-            {/* Page content — offset for header (mobile 54px, desktop 90px = 32 + 58) */}
-            <main className="min-h-[calc(100dvh-54px)] pt-[54px] md:pt-[90px]">
+            {/* Page content — offset for fixed header */}
+            <main className="min-h-[calc(100dvh-60px)] pt-[60px]">
               {children}
             </main>
 
