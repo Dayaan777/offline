@@ -154,7 +154,7 @@ export function Header() {
         ref={headerRef}
         className="absolute inset-x-0 top-0 z-50 h-[54px] border-b border-transparent bg-transparent md:h-[58px]"
       >
-        <div className="container h-full">
+        <div className="h-full w-full px-5 md:px-10 lg:px-20">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
           <div className="relative hidden h-full items-center md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4 lg:gap-8 [&_a]:!text-[var(--color-text-inverse)] [&_button]:!text-[var(--color-text-inverse)]">

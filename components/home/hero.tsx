@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 export function HomeHero() {
   return (
-    <section aria-label="Campaign hero" className="relative aspect-[3/2] max-h-[760px] overflow-hidden bg-[var(--color-bg-inverse)]">
+    <section aria-label="Campaign hero" className="relative aspect-[3/2] max-h-[760px] w-full md:w-screen md:max-w-none overflow-hidden bg-[var(--color-bg-inverse)]">
       <Image
         src="/images/offline-hero-latest.png"
         alt="Black and red folded fabric in dramatic light"
