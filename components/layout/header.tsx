@@ -157,7 +157,10 @@ export function Header() {
         <div className="container h-full">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
-          <div className="hidden md:flex relative items-center justify-between h-full">
+          {/* Only renders at widths wide enough for the full nav + centered
+              logo + icons to fit without colliding (see mobile layout below,
+              which covers every width beneath that threshold). */}
+          <div className="hidden lg:flex relative items-center justify-between h-full">
 
             {/* Left — nav or search */}
             {isSearchOpen ? (
@@ -173,7 +176,7 @@ export function Header() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search footwear..."
                   aria-label="Search"
-                  className="w-full bg-transparent border-b border-[var(--color-border-default)] pb-1 text-[15px] text-[var(--color-text-inverse)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-text-primary)] transition-colors duration-150"
+                  className="w-full bg-transparent border-b border-[var(--color-border-default)] pb-1 text-[15px] text-[#F6F3EE] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-text-primary)] transition-colors duration-150"
                 />
               </form>
             ) : (
@@ -193,7 +196,7 @@ export function Header() {
                         aria-expanded={openDropdown === link.id}
                         aria-haspopup="true"
                         onKeyDown={(e) => handleDropdownKey(e, link.id!)}
-                        className="flex items-center gap-1 text-[15px] tracking-[0.02em] text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-100 focus:outline-none"
+                        className="flex items-center gap-1 text-[15px] tracking-[0.02em] text-[#F6F3EE] opacity-100 hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-100 focus:outline-none"
                       >
                         {link.label}
                         <IconChevronDown
@@ -235,7 +238,7 @@ export function Header() {
                     <Link
                       key={link.href}
                       href={link.href!}
-                      className="text-[15px] tracking-[0.02em] text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100"
+                      className="text-[15px] tracking-[0.02em] text-[#F6F3EE] opacity-100 hover:opacity-100 transition-opacity duration-100"
                     >
                       {link.label}
                     </Link>
@@ -250,7 +253,7 @@ export function Header() {
             <Link
               href="/"
               aria-label="OFFLINE home"
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[13px] font-light tracking-[0.15em] text-[#F6F3EE] hover:opacity-60 transition-opacity duration-100"
             >
               OFFLINE
             </Link>
@@ -260,7 +263,7 @@ export function Header() {
               <button
                 onClick={toggleSearch}
                 aria-label={isSearchOpen ? 'Close search' : 'Search'}
-                className="text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100 focus-visible:opacity-100 focus:outline-none"
+                className="text-[#F6F3EE] opacity-100 hover:opacity-100 transition-opacity duration-100 focus-visible:opacity-100 focus:outline-none"
               >
                 {isSearchOpen ? (
                   <IconX className="w-5 h-5" />
@@ -272,7 +275,7 @@ export function Header() {
               <Link
                 href="/account"
                 aria-label="Account"
-                className="text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100"
+                className="text-[#F6F3EE] opacity-100 hover:opacity-100 transition-opacity duration-100"
               >
                 <IconUser className="w-5 h-5" />
               </Link>
@@ -280,7 +283,7 @@ export function Header() {
               <button
                 onClick={openCart}
                 aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
-                className="relative text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100 focus:outline-none focus-visible:opacity-100"
+                className="relative text-[#F6F3EE] opacity-100 hover:opacity-100 transition-opacity duration-100 focus:outline-none focus-visible:opacity-100"
               >
                 <IconBag className="w-5 h-5" />
                 {itemCount > 0 && (
@@ -295,8 +298,11 @@ export function Header() {
             </div>
           </div>
 
-          {/* ── Mobile layout ──────────────────────────────────────────────── */}
-          <div className="flex md:hidden items-center justify-between h-full">
+          {/* ── Mobile / compact layout ────────────────────────────────────── */}
+          {/* Covers every width below the desktop breakpoint above, so the
+              hamburger layout is what renders whenever the full nav would
+              otherwise collide with the centered logo. */}
+          <div className="flex lg:hidden items-center justify-between h-full">
             <button
               onClick={() => setIsMobileOpen(true)}
               aria-label="Open navigation menu"

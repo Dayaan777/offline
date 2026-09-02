@@ -13,7 +13,7 @@ export function HomeHero() {
         alt="Black and red folded fabric in dramatic light"
         fill
         priority
-        className="object-cover object-[center_68%] md:object-center"
+        className="object-cover object-[center_68%] md:object-contain md:object-center"
         sizes="100vw"
       />
       <div className="absolute inset-0 bg-black/5" aria-hidden="true" />
