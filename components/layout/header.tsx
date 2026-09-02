@@ -64,7 +64,6 @@ const MOBILE_LINKS = [
 export function Header() {
   const pathname = usePathname()
   const router = useRouter()
-  const isHomepage = pathname === '/'
   const { itemCount, openCart } = useCart()
   const { itemCount: wishlistCount } = useWishlist()
 
@@ -164,7 +163,7 @@ export function Header() {
             <Link
               href="/"
               aria-label="OFFLINE home"
-              className="inline-block text-[13px] font-light tracking-[0.15em] text-[var(--color-text-primary)] hover:opacity-60 transition-opacity duration-100"
+              className="inline-block text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
             >
               OFFLINE
             </Link>
@@ -183,7 +182,7 @@ export function Header() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search footwear..."
                   aria-label="Search"
-                  className="w-full bg-transparent border-b border-[var(--color-border-default)] pb-1 text-[15px] text-[var(--color-text-primary)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-text-primary)] transition-colors duration-150"
+                  className="w-full bg-transparent border-b border-[var(--color-border-default)] pb-1 text-[15px] text-[var(--color-text-inverse)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-text-primary)] transition-colors duration-150"
                 />
               </form>
             ) : (
@@ -203,7 +202,7 @@ export function Header() {
                         aria-expanded={openDropdown === link.id}
                         aria-haspopup="true"
                         onKeyDown={(e) => handleDropdownKey(e, link.id!)}
-                        className="flex items-center gap-1 text-[15px] tracking-[0.02em] text-[var(--color-text-primary)] opacity-60 hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-100 focus:outline-none"
+                        className="flex items-center gap-1 text-[15px] tracking-[0.02em] text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-100 focus:outline-none"
                       >
                         {link.label}
                         <IconChevronDown
@@ -232,7 +231,7 @@ export function Header() {
                                 href={item.href}
                                 role="menuitem"
                                 onClick={() => setOpenDropdown(null)}
-                                className="block px-5 py-2 text-[14px] text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)] transition-colors duration-100"
+                                className="block px-5 py-2 text-[14px] text-[var(--color-text-secondary)] hover:text-[var(--color-text-inverse)] hover:bg-[var(--color-bg-secondary)] transition-colors duration-100"
                               >
                                 {item.label}
                               </Link>
@@ -245,7 +244,7 @@ export function Header() {
                     <Link
                       key={link.href}
                       href={link.href!}
-                      className="text-[15px] tracking-[0.02em] text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100"
+                      className="text-[15px] tracking-[0.02em] text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100"
                     >
                       {link.label}
                     </Link>
@@ -259,7 +258,7 @@ export function Header() {
               <button
                 onClick={toggleSearch}
                 aria-label={isSearchOpen ? 'Close search' : 'Search'}
-                className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus-visible:opacity-100 focus:outline-none"
+                className="text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus-visible:opacity-100 focus:outline-none"
               >
                 {isSearchOpen ? (
                   <IconX className="w-5 h-5" />
@@ -271,7 +270,7 @@ export function Header() {
               <Link
                 href="/account"
                 aria-label="Account"
-                className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100"
+                className="text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100"
               >
                 <IconUser className="w-5 h-5" />
               </Link>
@@ -279,7 +278,7 @@ export function Header() {
               <button
                 onClick={openCart}
                 aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
-                className="relative text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none focus-visible:opacity-100"
+                className="relative text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none focus-visible:opacity-100"
               >
                 <IconBag className="w-5 h-5" />
                 {itemCount > 0 && (
@@ -299,7 +298,7 @@ export function Header() {
             <button
               onClick={() => setIsMobileOpen(true)}
               aria-label="Open navigation menu"
-              className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+              className="text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
             >
               <IconMenu className="w-5 h-5" />
             </button>
@@ -307,7 +306,7 @@ export function Header() {
             <Link
               href="/"
               aria-label="OFFLINE home"
-              className="text-[13px] font-light tracking-[0.15em] text-[var(--color-text-primary)]"
+              className="text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)]"
             >
               OFFLINE
             </Link>
@@ -315,7 +314,7 @@ export function Header() {
             <button
               onClick={openCart}
               aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
-              className="relative text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+              className="relative text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
             >
               <IconBag className="w-5 h-5" />
               {itemCount > 0 && (
