@@ -17,7 +17,7 @@ import {
 
 // ─── Nav data ─────────────────────────────────────────────────────────────────
 
-type DropdownId = 'shop' | 'brand'
+type DropdownId = 'clothing' | 'collections'
 
 type DropdownItem = { label: string; href: string } | { divider: true }
 
@@ -26,40 +26,37 @@ type NavLink =
   | { label: string; href: string; id?: never; dropdown?: never }
 
 const NAV_LINKS: NavLink[] = [
+  { label: 'New In', href: '/shop/new' },
   {
-    label: 'Shop',
-    id: 'shop',
+    label: 'Clothing',
+    id: 'clothing',
     dropdown: [
       { label: 'Ground', href: '/shop/ground' },
       { label: 'Field', href: '/shop/field' },
       { label: 'Floor', href: '/shop/floor' },
       { label: 'Track', href: '/shop/track' },
-      { divider: true },
-      { label: 'New Arrivals', href: '/shop/new' },
     ],
   },
   {
-    label: 'The Brand',
-    id: 'brand',
+    label: 'Collections',
+    id: 'collections',
     dropdown: [
-      { label: 'About', href: '/brand' },
-      { label: 'Materials', href: '/brand/materials' },
+      { label: 'Shop all', href: '/shop' },
+      { label: 'New arrivals', href: '/shop/new' },
+      { divider: true },
+      { label: 'The brand', href: '/brand' },
     ],
   },
-  { label: 'Journal', href: '/journal' },
+  { label: 'Accessories', href: '/shop/floor' },
+  { label: 'Sale', href: '/shop/new' },
 ]
 
-const MOBILE_SHOP = [
-  { label: 'Ground', href: '/shop/ground' },
-  { label: 'Field', href: '/shop/field' },
-  { label: 'Floor', href: '/shop/floor' },
-  { label: 'Track', href: '/shop/track' },
-  { label: 'New Arrivals', href: '/shop/new' },
-]
-
-const MOBILE_BRAND = [
-  { label: 'About', href: '/brand' },
-  { label: 'Materials', href: '/brand/materials' },
+const MOBILE_LINKS = [
+  { label: 'New In', href: '/shop/new' },
+  { label: 'Clothing', href: '/shop/field' },
+  { label: 'Collections', href: '/shop' },
+  { label: 'Accessories', href: '/shop/floor' },
+  { label: 'Sale', href: '/shop/new' },
 ]
 
 // ─── Component ────────────────────────────────────────────────────────────────
@@ -67,6 +64,7 @@ const MOBILE_BRAND = [
 export function Header() {
   const pathname = usePathname()
   const router = useRouter()
+  const isHomepage = pathname === '/'
   const { itemCount, openCart } = useCart()
   const { itemCount: wishlistCount } = useWishlist()
 
@@ -271,14 +269,6 @@ export function Header() {
               </button>
 
               <Link
-                href="/wishlist"
-                aria-label={`Wishlist${wishlistCount > 0 ? `, ${wishlistCount} saved` : ''}`}
-                className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100"
-              >
-                <IconHeart className="w-5 h-5" />
-              </Link>
-
-              <Link
                 href="/account"
                 aria-label="Account"
                 className="text-[var(--color-text-primary)] opacity-60 hover:opacity-100 transition-opacity duration-100"
@@ -393,13 +383,8 @@ export function Header() {
             className="flex-1 overflow-y-auto px-5 py-8"
             aria-label="Mobile navigation"
           >
-            {/* Shop */}
-            <div className="mb-8">
-              <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--color-text-inverse-muted)] mb-4">
-                Shop
-              </p>
-              <ul className="space-y-1">
-                {MOBILE_SHOP.map((item) => (
+              <ul className="flex flex-col gap-1">
+                {MOBILE_LINKS.map((item) => (
                   <li key={item.href}>
                     <Link
                       href={item.href}
@@ -411,36 +396,6 @@ export function Header() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* The Brand */}
-            <div className="mb-8">
-              <p className="text-[11px] font-medium uppercase tracking-[0.1em] text-[var(--color-text-inverse-muted)] mb-4">
-                The Brand
-              </p>
-              <ul className="space-y-1">
-                {MOBILE_BRAND.map((item) => (
-                  <li key={item.href}>
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsMobileOpen(false)}
-                      className="block py-2.5 text-[1.875rem] font-light leading-none text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Journal */}
-            <Link
-              href="/journal"
-              onClick={() => setIsMobileOpen(false)}
-              className="block py-2.5 text-[1.875rem] font-light leading-none text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
-            >
-              Journal
-            </Link>
           </nav>
 
           {/* Mobile overlay footer — account + wishlist */}
