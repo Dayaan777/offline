@@ -157,18 +157,9 @@ export function Header() {
         <div className="container h-full">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
-          <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center h-full gap-8">
+          <div className="hidden md:flex relative items-center justify-between h-full">
 
-            {/* Left — wordmark */}
-            <Link
-              href="/"
-              aria-label="OFFLINE home"
-              className="inline-block text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
-            >
-              OFFLINE
-            </Link>
-
-            {/* Center — nav or search */}
+            {/* Left — nav or search */}
             {isSearchOpen ? (
               <form
                 onSubmit={handleSearchSubmit}
@@ -252,6 +243,17 @@ export function Header() {
                 )}
               </nav>
             )}
+
+            {/* Center — wordmark, mathematically centered to the viewport
+                (absolutely positioned relative to this full-width row, independent
+                of the left/right group widths) */}
+            <Link
+              href="/"
+              aria-label="OFFLINE home"
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
+            >
+              OFFLINE
+            </Link>
 
             {/* Right — utility icons */}
             <div className="flex items-center justify-end gap-5">
