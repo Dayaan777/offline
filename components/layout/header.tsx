@@ -152,7 +152,7 @@ export function Header() {
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <header
         ref={headerRef}
-        className="absolute inset-x-0 top-0 z-50 h-[54px] border-b border-transparent bg-transparent md:h-[58px]"
+        className="absolute inset-x-0 top-0 z-50 h-[54px] border-b border-transparent bg-transparent md:top-8 md:h-[58px]"
       >
         <div className="container h-full">
 
