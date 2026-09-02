@@ -139,14 +139,14 @@ export function HomeHero() {
       >
         <div className="absolute inset-0 bg-[#231B15]">
           <Image
-            src="/images/products/margin/off-white/01.png"
-            alt="The Margin footwear in off-white"
+            src="/images/offline-hero.png"
+            alt="Black and red folded fabric in dramatic light"
             fill
             priority
-            className="object-cover object-center opacity-90 mix-blend-screen"
+            className="object-cover object-[64%_center]"
             sizes="(max-width: 768px) 100vw, 58vw"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" aria-hidden="true" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/10" aria-hidden="true" />
         </div>
 
         <div

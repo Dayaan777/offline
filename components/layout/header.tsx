@@ -155,7 +155,7 @@ export function Header() {
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <header
         ref={headerRef}
-        className="fixed top-0 inset-x-0 z-50 h-[60px] bg-[var(--color-bg-primary)] border-b border-[var(--color-border-subtle)]"
+        className="absolute top-0 inset-x-0 z-50 h-[60px] bg-transparent border-b border-transparent"
       >
         <div className="container h-full">
 
