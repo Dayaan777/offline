@@ -157,138 +157,78 @@ export function Header() {
         <div className="container h-full">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
-          <div className="hidden md:grid grid-cols-[1fr_auto_1fr] items-center h-full gap-8">
+          <div className="relative hidden h-full items-center md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4 lg:gap-8 [&_a]:!text-[var(--color-text-inverse)] [&_button]:!text-[var(--color-text-inverse)]">
 
-            {/* Left — wordmark */}
-            <Link
-              href="/"
-              aria-label="OFFLINE home"
-              className="inline-block text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
-            >
+            {/* Left — primary navigation */}
+            <nav className="flex min-w-0 items-center gap-3 lg:gap-7" aria-label="Main navigation">
+              {NAV_LINKS.map((link) =>
+                link.dropdown ? (
+                  <div
+                    key={link.id}
+                    className="relative"
+                    onMouseEnter={() => setOpenDropdown(link.id!)}
+                    onMouseLeave={() => setOpenDropdown(null)}
+                  >
+                    <button
+                      aria-expanded={openDropdown === link.id}
+                      aria-haspopup="true"
+                      onKeyDown={(e) => handleDropdownKey(e, link.id!)}
+                      className="flex items-center gap-1 text-[13px] lg:text-[15px] tracking-[0.02em] text-[color:var(--color-text-inverse)] transition-opacity duration-100 hover:opacity-70 focus:outline-none focus-visible:opacity-70"
+                    >
+                      {link.label}
+                      <IconChevronDown className={`h-3 w-3 transition-transform duration-150 ${openDropdown === link.id ? 'rotate-180' : ''}`} />
+                    </button>
+                    {openDropdown === link.id && (
+                      <div className="absolute left-1/2 top-[calc(100%+1px)] min-w-[168px] -translate-x-1/2 border border-[var(--color-border-subtle)] bg-[var(--color-bg-primary)] py-2 shadow-[var(--shadow-overlay)]" role="menu">
+                        {link.dropdown.map((item, i) =>
+                          'divider' in item ? (
+                            <div key={i} className="mx-4 my-1 h-px bg-[var(--color-border-subtle)]" role="separator" />
+                          ) : (
+                            <Link key={item.href} href={item.href} role="menuitem" onClick={() => setOpenDropdown(null)} className="block px-5 py-2 text-[14px] text-[var(--color-text-secondary)] transition-colors duration-100 hover:bg-[var(--color-bg-secondary)] hover:text-[color:var(--color-text-inverse)]">
+                              {item.label}
+                            </Link>
+                          )
+                        )}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link key={link.href} href={link.href!} className="text-[13px] lg:text-[15px] tracking-[0.02em] text-[color:var(--color-text-inverse)] transition-opacity duration-100 hover:opacity-70">
+                    {link.label}
+                  </Link>
+                )
+              )}
+            </nav>
+
+            {/* Center — independent wordmark */}
+            <Link href="/" aria-label="OFFLINE home" className="justify-self-center text-[13px] font-light tracking-[0.15em] text-[color:var(--color-text-inverse)] transition-opacity duration-100 hover:opacity-70">
               OFFLINE
             </Link>
 
-            {/* Center — nav or search */}
-            {isSearchOpen ? (
-              <form
-                onSubmit={handleSearchSubmit}
-                className="flex items-center w-[360px]"
-                role="search"
-              >
-                <input
-                  ref={searchInputRef}
-                  type="search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search footwear..."
-                  aria-label="Search"
-                  className="w-full bg-transparent border-b border-[var(--color-border-default)] pb-1 text-[15px] text-[var(--color-text-inverse)] placeholder:text-[var(--color-text-muted)] focus:outline-none focus:border-[var(--color-text-primary)] transition-colors duration-150"
-                />
-              </form>
-            ) : (
-              <nav
-                className="flex items-center gap-7"
-                aria-label="Main navigation"
-              >
-                {NAV_LINKS.map((link) =>
-                  link.dropdown ? (
-                    <div
-                      key={link.id}
-                      className="relative"
-                      onMouseEnter={() => setOpenDropdown(link.id!)}
-                      onMouseLeave={() => setOpenDropdown(null)}
-                    >
-                      <button
-                        aria-expanded={openDropdown === link.id}
-                        aria-haspopup="true"
-                        onKeyDown={(e) => handleDropdownKey(e, link.id!)}
-                        className="flex items-center gap-1 text-[15px] tracking-[0.02em] text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 focus-visible:opacity-100 transition-opacity duration-100 focus:outline-none"
-                      >
-                        {link.label}
-                        <IconChevronDown
-                          className={`w-3 h-3 transition-transform duration-150 ${
-                            openDropdown === link.id ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </button>
-
-                      {/* Dropdown panel */}
-                      {openDropdown === link.id && (
-                        <div
-                          className="absolute top-[calc(100%+1px)] left-1/2 -translate-x-1/2 min-w-[168px] border border-[var(--color-border-subtle)] bg-[var(--color-bg-primary)] py-2 shadow-[var(--shadow-overlay)]"
-                          role="menu"
-                        >
-                          {link.dropdown.map((item, i) =>
-                            'divider' in item ? (
-                              <div
-                                key={i}
-                                className="my-1 mx-4 h-px bg-[var(--color-border-subtle)]"
-                                role="separator"
-                              />
-                            ) : (
-                              <Link
-                                key={item.href}
-                                href={item.href}
-                                role="menuitem"
-                                onClick={() => setOpenDropdown(null)}
-                                className="block px-5 py-2 text-[14px] text-[var(--color-text-secondary)] hover:text-[var(--color-text-inverse)] hover:bg-[var(--color-bg-secondary)] transition-colors duration-100"
-                              >
-                                {item.label}
-                              </Link>
-                            )
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      key={link.href}
-                      href={link.href!}
-                      className="text-[15px] tracking-[0.02em] text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100"
-                    >
-                      {link.label}
-                    </Link>
-                  )
-                )}
-              </nav>
-            )}
-
             {/* Right — utility icons */}
             <div className="flex items-center justify-end gap-5">
-              <button
-                onClick={toggleSearch}
-                aria-label={isSearchOpen ? 'Close search' : 'Search'}
-                className="text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100 focus-visible:opacity-100 focus:outline-none"
-              >
-                {isSearchOpen ? (
-                  <IconX className="w-5 h-5" />
-                ) : (
-                  <IconSearch className="w-5 h-5" />
-                )}
+              {isSearchOpen && (
+                <form onSubmit={handleSearchSubmit} className="absolute right-32 top-1/2 flex w-[240px] -translate-y-1/2 items-center" role="search">
+                  <input
+                    ref={searchInputRef}
+                    type="search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search footwear..."
+                    aria-label="Search"
+                    className="w-full border-b border-[var(--color-text-inverse)] bg-transparent pb-1 text-[15px] text-[color:var(--color-text-inverse)] placeholder:text-[var(--color-text-inverse-muted)] focus:border-[var(--color-text-inverse)] focus:outline-none"
+                  />
+                </form>
+              )}
+              <button onClick={toggleSearch} aria-label={isSearchOpen ? 'Close search' : 'Search'} className="text-[color:var(--color-text-inverse)] transition-opacity duration-100 hover:opacity-70 focus:outline-none">
+                {isSearchOpen ? <IconX className="h-5 w-5" /> : <IconSearch className="h-5 w-5" />}
               </button>
-
-              <Link
-                href="/account"
-                aria-label="Account"
-                className="text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100"
-              >
-                <IconUser className="w-5 h-5" />
+              <Link href="/account" aria-label="Account" className="text-[color:var(--color-text-inverse)] transition-opacity duration-100 hover:opacity-70">
+                <IconUser className="h-5 w-5" />
               </Link>
-
-              <button
-                onClick={openCart}
-                aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
-                className="relative text-[var(--color-text-inverse)] opacity-100 hover:opacity-100 transition-opacity duration-100 focus:outline-none focus-visible:opacity-100"
-              >
-                <IconBag className="w-5 h-5" />
-                {itemCount > 0 && (
-                  <span
-                    aria-hidden="true"
-                    className="absolute -top-1.5 -right-2 min-w-[16px] h-4 bg-[var(--color-accent)] text-[var(--color-text-inverse)] text-[10px] font-medium leading-none flex items-center justify-center px-[3px]"
-                  >
-                    {itemCount > 9 ? '9+' : itemCount}
-                  </span>
-                )}
+              <button onClick={openCart} aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`} className="relative text-[color:var(--color-text-inverse)] transition-opacity duration-100 hover:opacity-70 focus:outline-none">
+                <IconBag className="h-5 w-5" />
+                {itemCount > 0 && <span aria-hidden="true" className="absolute -right-2 -top-1.5 flex h-4 min-w-[16px] items-center justify-center bg-[var(--color-accent)] px-[3px] text-[10px] font-medium leading-none text-[color:var(--color-text-inverse)]">{itemCount > 9 ? '9+' : itemCount}</span>}
               </button>
             </div>
           </div>
@@ -298,7 +238,7 @@ export function Header() {
             <button
               onClick={() => setIsMobileOpen(true)}
               aria-label="Open navigation menu"
-              className="text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+              className="text-[color:var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
             >
               <IconMenu className="w-5 h-5" />
             </button>
@@ -306,7 +246,7 @@ export function Header() {
             <Link
               href="/"
               aria-label="OFFLINE home"
-              className="text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)]"
+              className="text-[13px] font-light tracking-[0.15em] text-[color:var(--color-text-inverse)]"
             >
               OFFLINE
             </Link>
@@ -314,13 +254,13 @@ export function Header() {
             <button
               onClick={openCart}
               aria-label={`Cart${itemCount > 0 ? `, ${itemCount} item${itemCount !== 1 ? 's' : ''}` : ''}`}
-              className="relative text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+              className="relative text-[color:var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
             >
               <IconBag className="w-5 h-5" />
               {itemCount > 0 && (
                 <span
                   aria-hidden="true"
-                  className="absolute -top-1.5 -right-2 min-w-[16px] h-4 bg-[var(--color-accent)] text-[var(--color-text-inverse)] text-[10px] font-medium leading-none flex items-center justify-center px-[3px]"
+                  className="absolute -top-1.5 -right-2 min-w-[16px] h-4 bg-[var(--color-accent)] text-[color:var(--color-text-inverse)] text-[10px] font-medium leading-none flex items-center justify-center px-[3px]"
                 >
                   {itemCount > 9 ? '9+' : itemCount}
                 </span>
@@ -344,14 +284,14 @@ export function Header() {
             <Link
               href="/"
               onClick={() => setIsMobileOpen(false)}
-              className="text-[13px] font-light tracking-[0.15em] text-[var(--color-text-inverse)]"
+              className="text-[13px] font-light tracking-[0.15em] text-[color:var(--color-text-inverse)]"
             >
               OFFLINE
             </Link>
             <button
               onClick={() => setIsMobileOpen(false)}
               aria-label="Close menu"
-              className="text-[var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
+              className="text-[color:var(--color-text-inverse)] opacity-60 hover:opacity-100 transition-opacity duration-100 focus:outline-none"
             >
               <IconX className="w-5 h-5" />
             </button>
@@ -372,7 +312,7 @@ export function Header() {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search footwear..."
                 aria-label="Search"
-                className="flex-1 bg-transparent text-[var(--color-text-inverse)] placeholder:text-[var(--color-text-inverse-muted)] text-[1rem] focus:outline-none"
+                className="flex-1 bg-transparent text-[color:var(--color-text-inverse)] placeholder:text-[var(--color-text-inverse-muted)] text-[1rem] focus:outline-none"
               />
             </form>
           </div>
@@ -388,7 +328,7 @@ export function Header() {
                     <Link
                       href={item.href}
                       onClick={() => setIsMobileOpen(false)}
-                      className="block py-2.5 text-[1.875rem] font-light leading-none text-[var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
+                      className="block py-2.5 text-[1.875rem] font-light leading-none text-[color:var(--color-text-inverse)] hover:opacity-60 transition-opacity duration-100"
                     >
                       {item.label}
                     </Link>
@@ -402,7 +342,7 @@ export function Header() {
             <Link
               href="/wishlist"
               onClick={() => setIsMobileOpen(false)}
-              className="flex items-center gap-2 text-[14px] text-[var(--color-text-inverse-muted)] hover:text-[var(--color-text-inverse)] transition-colors duration-100"
+              className="flex items-center gap-2 text-[14px] text-[var(--color-text-inverse-muted)] hover:text-[color:var(--color-text-inverse)] transition-colors duration-100"
             >
               <IconHeart className="w-4 h-4" />
               Wishlist
@@ -415,7 +355,7 @@ export function Header() {
             <Link
               href="/account"
               onClick={() => setIsMobileOpen(false)}
-              className="flex items-center gap-2 text-[14px] text-[var(--color-text-inverse-muted)] hover:text-[var(--color-text-inverse)] transition-colors duration-100"
+              className="flex items-center gap-2 text-[14px] text-[var(--color-text-inverse-muted)] hover:text-[color:var(--color-text-inverse)] transition-colors duration-100"
             >
               <IconUser className="w-4 h-4" />
               Account
