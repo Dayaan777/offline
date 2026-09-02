@@ -6,7 +6,7 @@ export function HomeHero() {
   return (
     <section aria-label="Campaign hero" className="relative aspect-[3/2] max-h-[760px] overflow-hidden bg-[var(--color-bg-inverse)]">
       <Image
-        src="/images/offline-hero.png"
+        src="/images/offline-hero-latest.png"
         alt="Black and red folded fabric in dramatic light"
         fill
         priority
