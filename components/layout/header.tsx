@@ -154,12 +154,11 @@ export function Header() {
         ref={headerRef}
         className="absolute inset-x-0 top-0 z-50 h-[54px] overflow-x-clip border-b border-transparent bg-transparent md:h-[82px]"
       >
-        <div className="pointer-events-none absolute inset-x-0 top-0 hidden h-6 overflow-hidden border-b border-white/15 md:block">
-          <div className="flex h-full w-max items-center whitespace-nowrap text-[10px] font-medium uppercase tracking-[0.18em] text-[color:var(--color-text-inverse)]" style={{ animation: 'offline-marquee 18s linear infinite' }}>
-            <span>SALE LIVE NOW. UP TO 50% OFF</span>
-          </div>
+        <div className="absolute inset-x-0 top-0 hidden h-6 border-b border-white/10 bg-[#1b1b1b] md:block">
+          <button type="button" aria-label="Previous announcement" className="absolute left-1/2 top-1/2 -translate-x-[320px] -translate-y-1/2 px-2 text-[14px] leading-none text-white/90 transition-opacity hover:opacity-60">←</button>
+          <p className="absolute inset-0 flex items-center justify-center text-[10px] font-semibold uppercase tracking-[0.08em] text-white">SALE LIVE NOW. UP TO 50% OFF</p>
+          <button type="button" aria-label="Next announcement" className="absolute left-1/2 top-1/2 translate-x-[320px] -translate-y-1/2 px-2 text-[14px] leading-none text-white/90 transition-opacity hover:opacity-60">→</button>
         </div>
-        <style>{`@keyframes offline-marquee { from { transform: translateX(0); } to { transform: translateX(-100%); } }`}</style>
         <div className="h-full w-full px-5 md:px-10 lg:px-20">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
