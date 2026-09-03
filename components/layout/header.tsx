@@ -152,9 +152,9 @@ export function Header() {
       {/* ── Header ─────────────────────────────────────────────────────────── */}
       <header
         ref={headerRef}
-        className="absolute inset-x-0 top-0 z-50 h-[54px] overflow-x-clip border-b border-transparent bg-transparent md:h-[82px]"
+        className="absolute inset-x-0 top-10 z-50 h-[54px] overflow-x-clip border-b border-transparent bg-transparent md:h-[82px]"
       >
-        <div className="absolute inset-x-0 top-0 hidden h-10 border-b border-white/10 bg-[#1b1b1b] md:block">
+        <div className="absolute inset-x-0 -top-10 hidden h-10 border-b border-white/10 bg-[#1b1b1b] md:flex md:items-center">
           <button type="button" aria-label="Previous announcement" className="absolute left-1/2 top-1/2 -translate-x-[320px] -translate-y-1/2 px-2 text-[14px] leading-none text-white/90 transition-opacity hover:opacity-60">←</button>
           <p className="absolute left-1/2 top-1/2 flex w-max -translate-x-1/2 -translate-y-1/2 items-center text-[10px] font-semibold uppercase tracking-[0.08em] text-white">SALE LIVE NOW. UP TO 50% OFF</p>
           <button type="button" aria-label="Next announcement" className="absolute left-1/2 top-1/2 translate-x-[320px] -translate-y-1/2 px-2 text-[14px] leading-none text-white/90 transition-opacity hover:opacity-60">→</button>
