@@ -156,13 +156,13 @@ export function Header() {
       >
         <div className="absolute inset-x-0 -top-10 hidden h-10 border-b border-white/10 bg-[#1b1b1b] md:flex md:items-center">
           <button type="button" aria-label="Previous announcement" className="absolute left-1/2 top-1/2 -translate-x-[320px] -translate-y-1/2 px-2 text-[14px] leading-none text-white/90 transition-opacity hover:opacity-60">←</button>
-          <p className="absolute left-1/2 top-1/2 flex w-max -translate-x-1/2 -translate-y-1/2 items-center text-[10px] font-semibold uppercase tracking-[0.08em] text-white">SALE LIVE NOW. UP TO 50% OFF</p>
+          <p className="absolute left-1/2 top-1/2 flex w-max -translate-x-1/2 -translate-y-1/2 items-center text-[11px] font-semibold uppercase tracking-[0.08em] text-white">SALE LIVE NOW. UP TO 50% OFF</p>
           <button type="button" aria-label="Next announcement" className="absolute left-1/2 top-1/2 translate-x-[320px] -translate-y-1/2 px-2 text-[14px] leading-none text-white/90 transition-opacity hover:opacity-60">→</button>
         </div>
         <div className="h-full w-full px-5 md:px-10 lg:px-20">
 
           {/* ── Desktop layout ─────────────────────────────────────────────── */}
-          <div className="relative hidden h-[58px] items-center md:absolute md:inset-x-0 md:top-6 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4 lg:gap-8 [&_a]:!text-[var(--color-text-inverse)] [&_button]:!text-[var(--color-text-inverse)]">
+          <div className="relative hidden h-[58px] items-center md:absolute md:inset-x-0 md:top-5 md:grid md:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] md:gap-4 lg:gap-8 [&_a]:!text-[var(--color-text-inverse)] [&_button]:!text-[var(--color-text-inverse)]">
 
             {/* Left — primary navigation */}
             <nav className="flex min-w-0 items-center gap-3 lg:gap-7" aria-label="Main navigation">
